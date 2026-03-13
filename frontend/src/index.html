@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Трекер привычек</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="public/manifest.json">
+    <link rel="apple-touch-icon" href="public/192.png">
+    <meta name="theme-color" content="#ff8a9c">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>🌸 Мои привычки</h1>
+            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">🌙</button>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="profile">Профиль</button>
+            <button class="tab-btn" data-tab="habits">Привычки</button>
+            <button class="tab-btn" data-tab="stats">Статистика</button>
+        </div>
+
+        <!-- Вкладка Профиль -->
+        <div id="profile" class="tab-content active">
+            <form id="profileForm" class="profile-form">
+                <input type="text" id="name" placeholder="Имя" required>
+                <input type="number" id="age" placeholder="Возраст" min="1" max="120" required>
+                <select id="gender" required>
+                    <option value="">Выберите пол</option>
+                    <option value="male">Мужской</option>
+                    <option value="female">Женский</option>
+                    <option value="other">Другой</option>
+                </select>
+                
+                <div class="profile-photo-container">
+                    <div class="profile-photo" id="profilePhoto" onclick="document.getElementById('photoUpload').click()">
+                        <div id="photoPlaceholder" class="photo-placeholder">
+                            <span>📸</span>
+                            <p>Нажмите для загрузки фото</p>
+                        </div>
+                        <img id="profileImage" src="" alt="Profile" style="display: none;">
+                    </div>
+                    <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                    <div>
+                        <button type="button" class="upload-btn" onclick="document.getElementById('photoUpload').click()">Загрузить фото</button>
+                        <button type="button" class="remove-btn" id="removePhoto">Удалить</button>
+                    </div>
+                </div>
+
+                <button type="submit">Сохранить профиль</button>
+            </form>
+
+            <div id="profileDisplay" class="profile-display hidden">
+                <div class="profile-header">
+                    <img id="displayPhoto" class="profile-header-img" src="" alt="Profile">
+                    <div class="profile-header-info">
+                        <h3>Ваш профиль</h3>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <p><strong>Имя:</strong> <span id="displayName"></span></p>
+                    <p><strong>Возраст:</strong> <span id="displayAge"></span></p>
+                    <p><strong>Пол:</strong> <span id="displayGender"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Вкладка Привычки -->
+        <div id="habits" class="tab-content">
+            <div class="habits-list" id="habitsList"></div>
+            
+            <div class="add-habit">
+                <input type="text" id="newHabitName" placeholder="Новая привычка (например, Сон)">
+                <button id="addHabit">Добавить</button>
+            </div>
+
+            <div class="date-selector">
+                <label>Выберите день:</label>
+                <input type="date" id="selectedDate">
+            </div>
+        </div>
+
+        <!-- Вкладка Статистика -->
+        <div id="stats" class="tab-content">
+            <div class="stats-container">
+                <h3>📊 Статистика за последние 7 дней</h3>
+                <div id="weeklyStats"></div>
+                
+                <h4>📈 Прогресс привычек за 7 дней</h4>
+                <div id="habitProgress"></div>
+            </div>
+
+            <div class="chart-container">
+                <h3>📅 Статистика за выбранный день</h3>
+                <div class="date-selector" style="margin-top: 0;">
+                    <input type="date" id="statsDate">
+                    <button id="showDayStats">Показать</button>
+                </div>
+                <div id="dayStats"></div>
+            </div>
+
+            <div class="chart-container">
+                <h3>📊 Визуализация прогресса</h3>
+                <div id="progressChart"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('public/sw.js')
+                    .then(reg => console.log('Service Worker зарегистрирован:', reg))
+                    .catch(err => console.log('Ошибка Service Worker:', err));
+            });
+        }
+    </script>
+</body>
+</html>
