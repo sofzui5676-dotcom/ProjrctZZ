@@ -1,19 +1,24 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  app:
+  frontend:
     build:
       context: .
       dockerfile: docker/Dockerfile
+    container_name: smart-dashboard-frontend
     ports:
-      - "8080:80"
-    volumes:
-      - ./frontend/src:/usr/share/nginx/html
-      - ./frontend/public:/usr/share/nginx/html/public
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - app-network
+      - "3000:3000"
+    depends_on:
+      - backend
 
-networks:
-  app-network:
-    driver: bridge
+  backend:
+    image: node:20
+    container_name: smart-dashboard-backend
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: sh -c "npm install && node server/server.js"
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
