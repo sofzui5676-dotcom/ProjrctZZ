@@ -1,24 +1,19 @@
-version: "3.8"
-
 services:
+  backend:
+    build: ./smart-dashboard-backend
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./smart-dashboard-backend:/app
+      - /app/node_modules
+
   frontend:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
-    container_name: smart-dashboard-frontend
+    build: ./smart-dashboard-frontend
     ports:
       - "3000:3000"
     depends_on:
       - backend
-
-  backend:
-    image: node:20
-    container_name: smart-dashboard-backend
-    working_dir: /app
     volumes:
-      - ./:/app
-    command: sh -c "npm install && node server/server.js"
-    ports:
-      - "4000:4000"
-    env_file:
-      - .env
+      - ./frontend/public:/usr/share/nginx/html

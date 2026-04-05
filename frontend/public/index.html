@@ -3,23 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Трекер привычек</title>
+    <title>HabitFlow</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="public/manifest.json">
-    <link rel="apple-touch-icon" href="public/192.png">
-    <meta name="theme-color" content="#e8d5d5">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f5f0ed">
 </head>
 <body>
     <div class="app-container">
         <header>
-            <h1>Мои привычки</h1>
-            <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему"></button>
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <h1>HabitFlow</h1>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Theme"></button>
         </header>
 
         <div class="tabs">
-            <button class="tab-btn active" data-tab="profile">Профиль</button>
-            <button class="tab-btn" data-tab="habits">Привычки</button>
-            <button class="tab-btn" data-tab="stats">Статистика</button>
+            <button class="tab-btn active" data-tab="profile">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                Профиль
+            </button>
+            <button class="tab-btn" data-tab="habits">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                Привычки
+            </button>
+            <button class="tab-btn" data-tab="stats">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <line x1="18" y1="20" x2="18" y2="10"/>
+                    <line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+                Статистика
+            </button>
+            <button class="tab-btn" data-tab="goals">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="12"/>
+                    <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                Цели
+            </button>
         </div>
 
         <!-- Вкладка Профиль -->
@@ -28,56 +60,81 @@
                 <div class="profile-card">
                     <div class="profile-avatar" id="profileAvatar">
                         <div class="avatar-placeholder" id="avatarPlaceholder">
-                            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                <circle cx="12" cy="7" r="4"/>
                             </svg>
                         </div>
                         <img id="profileAvatarImg" class="avatar-image" style="display: none;">
                     </div>
                     <div class="profile-info">
-                        <h3 id="displayName">Не указано</h3>
+                        <h3 id="displayName">Создайте профиль</h3>
                         <p id="displayAgeGender"></p>
+                        <p id="displayJoinDate" class="join-date"></p>
                     </div>
-                    <button class="edit-profile-btn" id="editProfileBtn">Редактировать</button>
+                    <button class="edit-profile-btn" id="editProfileBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M17 3l4 4-7 7H10v-4l7-7z"/>
+                            <path d="M4 20h16"/>
+                        </svg>
+                        Редактировать
+                    </button>
+                </div>
+                
+                <div class="stats-mini">
+                    <div class="stat-mini-card">
+                        <span class="stat-mini-value" id="totalHabits">0</span>
+                        <span class="stat-mini-label">всего привычек</span>
+                    </div>
+                    <div class="stat-mini-card">
+                        <span class="stat-mini-value" id="currentStreak">0</span>
+                        <span class="stat-mini-label">дней подряд</span>
+                    </div>
+                    <div class="stat-mini-card">
+                        <span class="stat-mini-value" id="completionRate">0%</span>
+                        <span class="stat-mini-label">выполнение</span>
+                    </div>
+                </div>
+
+                <!-- Календарь настроения -->
+                <div class="mood-calendar-section">
+                    <div class="section-header">
+                        <h3>Календарь настроения</h3>
+                        <button class="add-mood-btn" id="addMoodBtn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mood-calendar" id="moodCalendar"></div>
                 </div>
             </div>
 
             <div class="profile-edit hidden" id="profileEdit">
                 <form id="profileForm" class="profile-form">
                     <div class="form-group">
-                        <label for="name">Имя</label>
+                        <label>Имя</label>
                         <input type="text" id="name" placeholder="Ваше имя" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="age">Возраст</label>
-                        <input type="number" id="age" placeholder="Возраст" min="1" max="120" required>
+                        <label>Возраст</label>
+                        <input type="number" id="age" placeholder="Возраст" min="1" max="120">
                     </div>
                     
                     <div class="form-group">
-                        <label for="gender">Пол</label>
-                        <select id="gender" required>
-                            <option value="">Выберите</option>
+                        <label>Пол</label>
+                        <select id="gender">
+                            <option value="">Не указано</option>
                             <option value="male">Мужской</option>
                             <option value="female">Женский</option>
-                            <option value="other">Другой</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label>Фото профиля</label>
-                        <div class="photo-upload-area">
-                            <div class="photo-preview" id="photoPreview">
-                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                                    <circle cx="12" cy="13" r="4"></circle>
-                                </svg>
-                                <span>Загрузить фото</span>
-                            </div>
-                            <input type="file" id="photoUpload" accept="image/*" style="display: none;">
-                            <button type="button" class="remove-photo-btn hidden" id="removePhoto">Удалить фото</button>
-                        </div>
+                        <label>О себе</label>
+                        <textarea id="bio" rows="3" placeholder="Расскажите о себе..."></textarea>
                     </div>
 
                     <div class="form-actions">
@@ -90,49 +147,93 @@
 
         <!-- Вкладка Привычки -->
         <div id="habits" class="tab-content">
+            <div class="habits-stats">
+                <div class="daily-progress">
+                    <span>Прогресс сегодня</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="dailyProgressFill"></div>
+                    </div>
+                    <span id="dailyProgressText">0/0</span>
+                </div>
+            </div>
+            
             <div class="habits-list" id="habitsList"></div>
             
             <div class="add-habit">
-                <input type="text" id="newHabitName" placeholder="Новая привычка" maxlength="50">
+                <input type="text" id="newHabitName" placeholder="Новая привычка" maxlength="40">
                 <button id="addHabit">Добавить</button>
             </div>
 
             <div class="date-selector">
-                <label>Выберите день:</label>
+                <label>День:</label>
                 <input type="date" id="selectedDate">
             </div>
         </div>
 
         <!-- Вкладка Статистика -->
         <div id="stats" class="tab-content">
+            <div class="stats-filters">
+                <button class="filter-btn active" data-period="week">Неделя</button>
+                <button class="filter-btn" data-period="month">Месяц</button>
+            </div>
+            
             <div class="stats-container">
-                <h3>Недельная статистика</h3>
+                <h3>Активность</h3>
                 <div id="weeklyStats"></div>
-                
-                <h4>Прогресс привычек</h4>
-                <div id="habitProgress"></div>
             </div>
 
             <div class="stats-container">
-                <h3>Статистика за день</h3>
-                <div class="date-selector">
-                    <input type="date" id="statsDate">
-                    <button id="showDayStats">Показать</button>
+                <h3>Лучшие привычки</h3>
+                <div id="topHabits"></div>
+            </div>
+
+            <div class="stats-container">
+                <h3>Статистика настроения</h3>
+                <div id="moodStats"></div>
+            </div>
+        </div>
+
+        <!-- Вкладка Цели -->
+        <div id="goals" class="tab-content">
+            <div class="goals-list" id="goalsList"></div>
+            <div class="add-goal">
+                <input type="text" id="newGoalName" placeholder="Новая цель">
+                <button id="addGoal">Добавить цель</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно для добавления настроения -->
+    <div class="modal hidden" id="moodModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Моё настроение</h3>
+                <button class="modal-close" id="closeModalBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Дата</label>
+                    <input type="date" id="moodDate">
                 </div>
-                <div id="dayStats"></div>
+                <div class="form-group">
+                    <label>Настроение</label>
+                    <div class="mood-emoji-selector" id="moodEmojiSelector">
+                        <button class="mood-emoji" data-mood="great">😊 Отлично</button>
+                        <button class="mood-emoji" data-mood="good">🙂 Хорошо</button>
+                        <button class="mood-emoji" data-mood="neutral">😐 Нормально</button>
+                        <button class="mood-emoji" data-mood="bad">😕 Плохо</button>
+                        <button class="mood-emoji" data-mood="terrible">😢 Ужасно</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Заметки</label>
+                    <textarea id="moodNote" rows="4" placeholder="Что произошло сегодня? Что чувствую?"></textarea>
+                </div>
+                <button class="btn-primary" id="saveMoodBtn">Сохранить</button>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('public/sw.js')
-                    .then(reg => console.log('Service Worker registered:', reg))
-                    .catch(err => console.log('Service Worker error:', err));
-            });
-        }
-    </script>
 </body>
 </html>
