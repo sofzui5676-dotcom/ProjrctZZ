@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: habit-tracker
+    runtime: static
+    buildCommand: echo "Static site ready"
+    staticPublishPath: ./frontend/public
+    envVars:
+      - key: NODE_VERSION
+        value: 18
